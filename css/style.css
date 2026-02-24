@@ -1,10 +1,55 @@
-/* Minimal styling for the Future Self pages */
-:root{--bg:#f9f9fb;--card:#fff;--accent:#2b7a78}
-*{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-body{margin:0;background:var(--bg);color:#111;padding:24px}
-main{max-width:700px;margin:40px auto;background:var(--card);padding:24px;border-radius:10px;box-shadow:0 6px 18px rgba(24,24,24,0.06)}
-h1{margin-top:0}
-label{display:block;margin:12px 0}
-input,textarea{width:100%;padding:8px;border:1px solid #ddd;border-radius:6px}
-button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
-#capsule{white-space:pre-wrap}
+/* Custom overrides for time capsule with Bootstrap */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+#capsule {
+  min-height: 200px;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.locked-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.countdown-timer {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  padding: 2rem;
+  color: white;
+  text-align: center;
+}
+
+.countdown-label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.countdown-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+}
+
+.capsule-message {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.6;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
+}
