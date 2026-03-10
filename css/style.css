@@ -26,6 +26,29 @@ body {
     );
   min-height: 100vh;
   position: relative;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%238b4513' opacity='0.3'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+/* Custom Cursor Effect */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(139, 69, 19, 0.3);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, border-color 0.2s;
+  mix-blend-mode: multiply;
+}
+
+body:hover::after {
+  width: 40px;
+  height: 40px;
 }
 
 body::before {
@@ -56,6 +79,11 @@ body::before {
   opacity: 0.4;
   pointer-events: none;
   z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+.vintage-background:hover {
+  opacity: 0.6;
 }
 
 .main-container {
@@ -73,6 +101,15 @@ body::before {
     inset 0 0 60px rgba(139, 69, 19, 0.05);
   position: relative;
   overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 
+    0 20px 40px rgba(139, 69, 19, 0.4),
+    inset 0 0 60px rgba(139, 69, 19, 0.08),
+    0 0 20px rgba(212, 175, 55, 0.3);
 }
 
 .card::before {
@@ -85,6 +122,34 @@ body::before {
   border: 2px solid rgba(139, 69, 19, 0.2);
   border-radius: 4px;
   pointer-events: none;
+  transition: border-color 0.3s ease;
+}
+
+.card:hover::before {
+  border-color: rgba(139, 69, 19, 0.4);
+}
+
+/* Glowing border effect on hover */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(212, 175, 55, 0.3) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.card:hover::after {
+  opacity: 1;
 }
 
 .card-body {
@@ -102,6 +167,17 @@ h1.card-title {
   margin-bottom: 0.5rem;
   text-shadow: 1px 1px 2px rgba(139, 69, 19, 0.2);
   letter-spacing: 2px;
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+h1.card-title:hover {
+  color: #8b4513;
+  text-shadow: 
+    2px 2px 4px rgba(139, 69, 19, 0.3),
+    0 0 20px rgba(212, 175, 55, 0.4);
+  transform: scale(1.02);
+  letter-spacing: 3px;
 }
 
 .card-subtitle {
@@ -110,7 +186,16 @@ h1.card-title {
   font-size: 1.3rem;
   text-align: center;
   margin-bottom: 2rem;
-  font-style: italic;
+  font-style:italic;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.card-subtitle:hover {
+  color: #a0522d;
+  transform: translateY(-2px);
+  text-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+  letter-spacing: 1px;
 }
 
 /* Vintage Form Elements */
@@ -121,6 +206,13 @@ h1.card-title {
   font-size: 1rem;
   margin-bottom: 0.5rem;
   letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.form-label:hover {
+  color: #8b4513;
+  transform: translateX(5px);
 }
 
 .form-control {
@@ -133,6 +225,7 @@ h1.card-title {
   color: #3e2723;
   transition: all 0.3s ease;
   box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+  cursor: text;
 }
 
 .form-control:focus {
@@ -142,11 +235,25 @@ h1.card-title {
   box-shadow: 
     0 0 0 3px rgba(139, 69, 19, 0.1),
     inset 0 2px 4px rgba(139, 69, 19, 0.1);
+  transform: scale(1.02);
+}
+
+.form-control:hover:not(:focus) {
+  background: #fff9e6;
+  border-color: #d4af37;
+  box-shadow: 
+    0 0 8px rgba(212, 175, 55, 0.3),
+    inset 0 2px 4px rgba(139, 69, 19, 0.1);
 }
 
 textarea.form-control {
   line-height: 1.8;
   resize: vertical;
+  transition: all 0.3s ease;
+}
+
+textarea.form-control:hover {
+  background: linear-gradient(to bottom, #fffbf0, #fff9e6);
 }
 
 /* Vintage Button */
@@ -164,6 +271,7 @@ textarea.form-control {
   box-shadow: 0 4px 6px rgba(139, 69, 19, 0.3);
   position: relative;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .btn-primary::before {
@@ -182,11 +290,31 @@ textarea.form-control {
   transition: transform 0.6s ease;
 }
 
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.btn-primary:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
 .btn-primary:hover {
   background: linear-gradient(135deg, #a0522d 0%, #8b4513 100%);
   border-color: #5d2e0f;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(139, 69, 19, 0.4);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 16px rgba(139, 69, 19, 0.5),
+    0 0 20px rgba(212, 175, 55, 0.4);
 }
 
 .btn-primary:hover::before {
@@ -194,7 +322,7 @@ textarea.form-control {
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
   box-shadow: 0 2px 4px rgba(139, 69, 19, 0.3);
 }
 
@@ -210,13 +338,37 @@ textarea.form-control {
   color: #fff;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-secondary::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.2), transparent);
+  transition: height 0.3s ease;
+}
+
+.btn-secondary:hover::after {
+  height: 100%;
 }
 
 .btn-secondary:hover {
   background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
   border-color: #1f2937;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(107, 114, 128, 0.4);
+}
+
+.btn-secondary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Capsule Display Area */
@@ -243,6 +395,13 @@ textarea.form-control {
   margin-bottom: 1.5rem;
   filter: drop-shadow(0 4px 8px rgba(139, 69, 19, 0.3));
   animation: pulse 2s ease-in-out infinite;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.locked-icon:hover {
+  transform: scale(1.2) rotate(10deg);
+  filter: drop-shadow(0 8px 16px rgba(212, 175, 55, 0.5));
 }
 
 @keyframes pulse {
@@ -267,6 +426,16 @@ textarea.form-control {
     0 4px 8px rgba(139, 69, 19, 0.4);
   position: relative;
   overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.countdown-timer:hover {
+  transform: scale(1.02);
+  box-shadow: 
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    0 8px 20px rgba(139, 69, 19, 0.6),
+    0 0 30px rgba(212, 175, 55, 0.3);
+  border-color: #d4af37;
 }
 
 .countdown-timer::before {
@@ -282,6 +451,11 @@ textarea.form-control {
     rgba(0, 0, 0, 0.3) 100%
   );
   pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.countdown-timer:hover::before {
+  opacity: 0;
 }
 
 .countdown-label {
@@ -304,6 +478,17 @@ textarea.form-control {
   border-radius: 4px;
   padding: 0.5rem;
   border: 1px solid rgba(244, 228, 193, 0.2);
+  transition: all 0.3s ease;
+  display: inline-block;
+  min-width: 70px;
+}
+
+.countdown-value:hover {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: #d4af37;
+  color: #ffd700;
+  transform: scale(1.1) rotate(-5deg);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
 }
 
 /* Capsule Message - Aged Paper */
@@ -322,6 +507,18 @@ textarea.form-control {
   color: #3e2723;
   position: relative;
   margin-top: 1.5rem;
+  transition: all 0.4s ease;
+  cursor: default;
+}
+
+.capsule-message:hover {
+  background: #fffef5;
+  transform: translateX(5px);
+  box-shadow: 
+    0 6px 12px rgba(139, 69, 19, 0.3),
+    inset 0 0 40px rgba(139, 69, 19, 0.08),
+    0 0 15px rgba(212, 175, 55, 0.2);
+  border-left-color: #d4af37;
 }
 
 .capsule-message::before {
@@ -333,6 +530,13 @@ textarea.form-control {
   position: absolute;
   top: -10px;
   left: 10px;
+  transition: all 0.3s ease;
+}
+
+.capsule-message:hover::before {
+  color: #d4af37;
+  opacity: 0.5;
+  transform: scale(1.1);
 }
 
 /* Alert Styles - Vintage */
@@ -342,6 +546,13 @@ textarea.form-control {
   padding: 1rem 1.5rem;
   border: 2px solid;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.alert:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .alert-success {
@@ -350,16 +561,34 @@ textarea.form-control {
   color: #33691e;
 }
 
+.alert-success:hover {
+  background: linear-gradient(135deg, #dcedc8 0%, #c5e1a5 100%);
+  border-color: #33691e;
+  box-shadow: 0 0 20px rgba(85, 139, 47, 0.3);
+}
+
 .alert-info {
   background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
   border-color: #1976d2;
   color: #0d47a1;
 }
 
+.alert-info:hover {
+  background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+  border-color: #0d47a1;
+  box-shadow: 0 0 20px rgba(25, 118, 210, 0.3);
+}
+
 .alert-warning {
   background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
   border-color: #f57c00;
   color: #e65100;
+}
+
+.alert-warning:hover {
+  background: linear-gradient(135deg, #ffecb3 0%, #ffe082 100%);
+  border-color: #e65100;
+  box-shadow: 0 0 20px rgba(245, 124, 0, 0.3);
 }
 
 /* Decorative Ornaments */
@@ -369,6 +598,17 @@ textarea.form-control {
   font-size: 1.5rem;
   margin: 1rem 0;
   opacity: 0.6;
+  transition: all 0.4s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.ornament:hover {
+  opacity: 1;
+  color: #d4af37;
+  transform: scale(1.1);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+  letter-spacing: 3px;
 }
 
 /* Wax Seal Effect */
@@ -387,6 +627,18 @@ textarea.form-control {
     inset 0 4px 8px rgba(255, 255, 255, 0.2);
   border: 3px solid #660000;
   position: relative;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+}
+
+.wax-seal:hover {
+  transform: scale(1.15) rotate(360deg);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.4),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.4);
+  border-color: #8b0000;
 }
 
 .wax-seal::after {
@@ -394,6 +646,12 @@ textarea.form-control {
   font-size: 2.5rem;
   color: #ffd700;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.wax-seal:hover::after {
+  transform: scale(1.2);
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
 }
 
 /* Envelope Animation */
@@ -422,6 +680,25 @@ textarea.form-control {
   border-bottom: 2px solid rgba(139, 69, 19, 0.3);
   margin: 1.5rem 0;
   background: rgba(139, 69, 19, 0.05);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.date-display:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-top-color: #d4af37;
+  border-bottom-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  transform: scale(1.02);
+}
+
+.date-display small {
+  transition: all 0.3s ease;
+}
+
+.date-display:hover small {
+  color: #5d4037;
+  letter-spacing: 0.5px;
 }
 
 /* Link Styling */
@@ -430,11 +707,14 @@ a {
   text-decoration: none;
   transition: all 0.3s ease;
   position: relative;
+  cursor: pointer;
+  display: inline-block;
 }
 
 a:hover {
   color: #a0522d;
-  text-decoration: underline;
+  text-decoration: none;
+  transform: translateX(3px);
 }
 
 a::after {
@@ -443,13 +723,19 @@ a::after {
   bottom: -2px;
   left: 0;
   width: 0;
-  height: 1px;
-  background: #8b4513;
-  transition: width 0.3s ease;
+  height: 2px;
+  background: linear-gradient(90deg, #8b4513, #d4af37, #8b4513);
+  transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border-radius: 2px;
 }
 
 a:hover::after {
   width: 100%;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+a:active {
+  transform: scale(0.95);
 }
 
 /* Toast Notification - Vintage */
@@ -462,6 +748,16 @@ a:hover::after {
   font-family: 'Courier Prime', monospace;
   color: #33691e;
   animation: slideInRight 0.5s ease-out;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.toast-custom:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    0 0 15px rgba(85, 139, 47, 0.4);
+  border-color: #33691e;
 }
 
 @keyframes slideInRight {

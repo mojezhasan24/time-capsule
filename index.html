@@ -64,7 +64,69 @@
       const now = new Date();
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', options);
+      
+      // Add magical cursor trail effect
+      initCursorTrail();
     });
+    
+    function initCursorTrail() {
+      const colors = ['#8b4513', '#d4af37', '#a0522d', '#c9a87c', '#ffd700'];
+      let lastX = 0;
+      let lastY = 0;
+      
+      document.addEventListener('mousemove', (e) => {
+        const distance = Math.sqrt(
+          Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2)
+        );
+        
+        if (distance > 10) {
+          const particle = document.createElement('div');
+          const size = Math.random() * 6 +4;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          
+          particle.style.cssText = `
+            position: fixed;
+            width: ${size}px;
+            height: ${size}px;
+            background-color: ${color};
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            left: ${e.clientX - size/2}px;
+            top: ${e.clientY - size/2}px;
+            opacity: ${Math.random() * 0.5 + 0.5};
+            box-shadow: 0 0 ${size}px ${color};
+            animation: fadeAndFall 1s ease-out forwards;
+          `;
+          
+          document.body.appendChild(particle);
+          
+          setTimeout(() => particle.remove(), 1000);
+          
+          lastX = e.clientX;
+          lastY = e.clientY;
+        }
+      });
+      
+      // Add animation styles
+      if (!document.getElementById('cursor-trail-styles')) {
+        const style = document.createElement('style');
+        style.id = 'cursor-trail-styles';
+        style.textContent = `
+          @keyframes fadeAndFall {
+            0% {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+            100% {
+              opacity: 0;
+              transform: translateY(20px) scale(0.5);
+            }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
   </script>
 </body>
 </html>

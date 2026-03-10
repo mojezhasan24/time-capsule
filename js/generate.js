@@ -1,6 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('capsuleForm');
   
+  // Add ripple effect to buttons
+  addRippleEffect();
+  
+  // Add mouse tracking for card glow effect
+  addCardGlowEffect();
+  
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -76,5 +82,75 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     `;
     document.head.appendChild(style);
+  }
+  
+  // Add mouse tracking for glowing border effect
+  function addCardGlowEffect() {
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+  }
+  
+  // Add ripple effect to buttons
+  function addRippleEffect() {
+    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
+    
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const rect = button.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.style.cssText = `
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.6);
+          left: ${x}px;
+          top: ${y}px;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
+          animation: ripple-effect 0.6s ease-out;
+        `;
+        
+        button.style.position = 'relative';
+        button.style.overflow = 'hidden';
+        button.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+      });
+    });
+    
+    // Add ripple animation if not exists
+    if (!document.getElementById('ripple-styles')) {
+      const style = document.createElement('style');
+      style.id = 'ripple-styles';
+      style.textContent = `
+        @keyframes ripple-effect {
+          0% {
+            width: 0;
+            height: 0;
+            opacity: 1;
+          }
+          100% {
+            width: 300px;
+            height: 300px;
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
 });
