@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const id = location.hash.replace('#', '');
   
   if (!id) {
-    container.innerHTML = '<div class="alert alert-info">No capsule selected.</div>';
+    container.innerHTML = '<div class="alert alert-info">✦ No capsule selected. Please choose a time capsule to view.</div>';
     return;
   }
   
   const raw = localStorage.getItem('capsule-' + id);
   if (!raw) {
-    container.innerHTML = '<div class="alert alert-warning">Capsule not found.</div>';
+    container.innerHTML = '<div class="alert alert-warning">✦ Capsule not found. It may have been removed or never existed.</div>';
     return;
   }
   
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderLocked(container, data, unlockDate);
     }, 1000);
   } else {
-    // Show unlocked capsule
+    // Show unlocked capsule with dramatic reveal
     renderUnlocked(container, data, unlockDate);
   }
   
@@ -44,30 +44,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
     
     el.innerHTML = `
-      <div class="text-center">
-        <div class="locked-icon">🔒</div>
-        <h5 class="mb-3">Message Locked from ${escapeHtml(data.name)}</h5>
-        <p class="text-muted">Opens on <strong>${escapeHtml(data.date)}</strong></p>
-        
-        <div class="countdown-timer mt-4">
-          <div class="countdown-label mb-3">Time until unlock</div>
-          <div class="row g-2 justify-content-center">
-            <div class="col-3">
-              <div class="countdown-value">${days}</div>
-              <div class="countdown-label">Days</div>
+      <div class="envelope-wrapper">
+        <div class="text-center">
+          <div class="wax-seal"></div>
+          <div class="locked-icon">🔐</div>
+          <h5 class="mb-3" style="font-family: 'Playfair Display', serif; color: #5d4037;">A Sealed Message from ${escapeHtml(data.name)}</h5>
+          <p class="text-muted" style="font-style:italic;">This capsule shall open on <strong style="color: #8b4513;">${formatDate(unlockDate)}</strong></p>
+          
+          <div class="countdown-timer mt-4">
+            <div class="countdown-label mb-3">⏳ Time Remaining Until Revelation ⏳</div>
+            <div class="row g-2 justify-content-center">
+              <div class="col-3">
+                <div class="countdown-value">${days}</div>
+                <div class="countdown-label">Days</div>
+              </div>
+              <div class="col-3">
+                <div class="countdown-value">${String(hours).padStart(2, '0')}</div>
+                <div class="countdown-label">Hours</div>
+              </div>
+              <div class="col-3">
+                <div class="countdown-value">${String(minutes).padStart(2, '0')}</div>
+                <div class="countdown-label">Minutes</div>
+              </div>
+              <div class="col-3">
+                <div class="countdown-value">${String(seconds).padStart(2, '0')}</div>
+                <div class="countdown-label">Seconds</div>
+              </div>
             </div>
-            <div class="col-3">
-              <div class="countdown-value">${String(hours).padStart(2, '0')}</div>
-              <div class="countdown-label">Hours</div>
-            </div>
-            <div class="col-3">
-              <div class="countdown-value">${String(minutes).padStart(2, '0')}</div>
-              <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="col-3">
-              <div class="countdown-value">${String(seconds).padStart(2, '0')}</div>
-              <div class="countdown-label">Seconds</div>
-            </div>
+            <p class="mt-3 small" style="opacity: 0.8; font-style:italic;">Patience is a virtue...</p>
           </div>
         </div>
       </div>
@@ -75,19 +79,43 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   function renderUnlocked(el, data, unlockDate) {
+    // Add unlock animation
+    el.style.animation = 'fadeIn 1s ease-in';
+    
     el.innerHTML = `
       <div>
-        <div class="alert alert-success" role="alert">
-          ✅ Time Capsule Unlocked!
+        <div class="alert alert-success text-center" role="alert" style="font-size: 1.2rem; padding: 1.5rem;">
+          <span style="font-size: 2rem;">✨</span><br>
+          <strong>The Time Capsule Has Been Unlocked!</strong><br>
+          <small style="opacity: 0.9;">The moment has arrived to read these words from the past</small>
         </div>
-        <h5 class="mb-2">${escapeHtml(data.name)}</h5>
-        <p class="text-muted small">Saved: ${new Date(data.createdAt).toLocaleString()} | Opens: ${escapeHtml(data.date)}</p>
+        
+        <div class="date-display">
+          <small>Written by <strong>${escapeHtml(data.name)}</strong></small><br>
+          <small>Saved: ${formatDate(new Date(data.createdAt))}</small><br>
+          <small>Opened: ${formatDate(now)}</small>
+        </div>
         
         <div class="capsule-message mt-3">
           ${escapeHtml(data.message)}
         </div>
+        
+        <div class="text-center mt-4">
+          <p class="text-muted small" style="font-style:italic;">
+            "Time is the most valuable thing we have."<br>
+            — Cherish this moment
+          </p>
+        </div>
       </div>
     `;
+    
+    // Celebration effect for unlocked capsule
+    setTimeout(() => createSparkleEffect(), 500);
+  }
+  
+  function formatDate(date) {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   }
   
   function escapeHtml(s) {
@@ -97,5 +125,50 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#39;');
+  }
+  
+  function createSparkleEffect() {
+    const colors = ['#d4af37', '#ffd700', '#f4e4c1', '#8b4513'];
+    for (let i = 0; i < 40; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.style.cssText = `
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background-color: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: 50%;
+        top: ${Math.random() * 100}vh;
+        left: ${Math.random() * 100}vw;
+        opacity: ${Math.random()};
+        pointer-events: none;
+        z-index: 9999;
+        animation: sparkle 1.5s ease-out forwards;
+      `;
+      document.body.appendChild(sparkle);
+      
+      setTimeout(() => sparkle.remove(), 1500);
+    }
+    
+    // Add sparkle animation if not exists
+    if (!document.getElementById('sparkle-styles')) {
+      const style = document.createElement('style');
+      style.id = 'sparkle-styles';
+      style.textContent = `
+        @keyframes sparkle {
+          0% {
+            transform: scale(0) rotate(0deg);
+            opacity: 1;
+          }
+          50% {
+            opacity: 1;
+          }
+          100% {
+            transform: scale(2) rotate(180deg);
+            opacity: 0;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
 });

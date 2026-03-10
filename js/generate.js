@@ -15,19 +15,66 @@ document.addEventListener('DOMContentLoaded', () => {
     
     localStorage.setItem('capsule-' + payload.id, JSON.stringify(payload));
     
-    // Show success toast
+    // Show vintage-style success toast
     const toast = document.createElement('div');
-    toast.className = 'alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3';
+    toast.className = 'toast-custom position-fixed bottom-0 end-0 m-3';
     toast.setAttribute('role', 'alert');
     toast.innerHTML = `
-      <strong>Success!</strong> Your time capsule has been saved.
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      <div class="d-flex align-items-center">
+        <span style="font-size: 1.5rem; margin-right: 0.5rem;">✦</span>
+        <div>
+          <strong>Your time capsule has been sealed!</strong><br>
+          <small style="opacity: 0.8;">Opening on ${payload.date}</small>
+        </div>
+        <button type="button" class="btn-close ms-3" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
     `;
     document.body.appendChild(toast);
+    
+    // Add celebration animation
+    createConfetti();
     
     // Redirect to view page
     setTimeout(() => {
       location.href = 'view.html#' + payload.id;
-    }, 1000);
+    }, 1500);
   });
+  
+  // Vintage confetti effect
+  function createConfetti() {
+    const colors = ['#8b4513', '#d4af37', '#a0522d', '#c9a87c'];
+    for (let i = 0; i < 30; i++) {
+      const confetti = document.createElement('div');
+      confetti.style.cssText = `
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background-color: ${colors[Math.floor(Math.random() * colors.length)]};
+        top: -10px;
+        left: ${Math.random() * 100}vw;
+        opacity: ${Math.random()};
+        pointer-events: none;
+        z-index: 9999;
+        animation: fall ${2 + Math.random() * 2}s linear forwards;
+      `;
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => confetti.remove(), 4000);
+    }
+  }
+  
+  // Add confetti animation styles
+  if (!document.getElementById('confetti-styles')) {
+    const style = document.createElement('style');
+    style.id = 'confetti-styles';
+    style.textContent = `
+      @keyframes fall {
+        to {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 });

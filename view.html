@@ -3,26 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Future Self — View</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Time Capsule — Reveal Your Message</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="bg-light">
-  <main class="container py-5">
+  <div class="vintage-background"></div>
+  
+  <main class="container main-container py-5">
     <div class="row justify-content-center">
       <div class="col-md-6">
         <div class="card shadow-lg">
           <div class="card-body">
-            <h1 class="card-title text-center mb-4">Time Capsule</h1>
+            <div class="ornament">❖ ❖ ❖</div>
+            <h1 class="card-title">Your Time Capsule</h1>
+            <p class="card-subtitle">A message from the past awaits...</p>
+            
             <div id="capsule"></div>
+            
             <div class="mt-4 text-center">
-              <a href="index.html" class="btn btn-secondary btn-sm">Create Another</a>
+              <a href="index.html" class="btn btn-secondary btn-sm">
+                ← Create Another Capsule
+              </a>
             </div>
+            
+            <div class="ornament" style="margin-top: 1.5rem;">❖ ❖ ❖</div>
           </div>
         </div>
       </div>
     </div>
   </main>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/view.js"></script>
 </body>
