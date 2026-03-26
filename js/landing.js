@@ -2,6 +2,27 @@
 
 // Smooth scrolling and section visibility
 document.addEventListener('DOMContentLoaded', () => {
+  // Shin-chan character greeting
+  setTimeout(() => {
+    const shinchan = document.getElementById('shinchanLanding');
+    if (shinchan) {
+      shinchan.style.animation = 'shinchanEnter 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 3s forwards, characterBounce 2s ease-in-out 5s infinite';
+    }
+  }, 100);
+  
+  // Add bounce keyframes dynamically
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes characterBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Eye tracking functionality
+  initEyeTracking();
+  
   const sections = document.querySelectorAll('.hero-section, .features-section, .how-it-works-section, .quote-section, .final-cta-section');
   const progressBar = document.querySelector('.progress-fill');
   
@@ -386,3 +407,53 @@ document.addEventListener('keydown', (e) => {
     navigateToCreate();
   }
 });
+
+// Eye tracking for Shin-chan character
+function initEyeTracking() {
+  // Wait for character to appear (after 4s when speech bubble shows)
+  setTimeout(() => {
+    const leftEye = document.querySelector('.eye.left');
+    const rightEye = document.querySelector('.eye.right');
+    
+    if (!leftEye || !rightEye) return;
+    
+    // Track mouse movement
+    document.addEventListener('mousemove', (e) => {
+      const eyes = [leftEye, rightEye];
+      
+      eyes.forEach(eye => {
+        const eyeRect = eye.getBoundingClientRect();
+        const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+        const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+        
+        // Calculate angle between eye center and cursor
+        const deltaX = e.clientX - eyeCenterX;
+        const deltaY = e.clientY - eyeCenterY;
+        const angle = Math.atan2(deltaY, deltaX);
+        
+        // Limit the movement radius
+        const distance = Math.min(
+          Math.sqrt(deltaX * deltaX + deltaY * deltaY),
+          150 // Maximum distance to track
+        );
+        
+        // Calculate new position for pupil (white part)
+        const moveX = Math.cos(angle) * 8; // Max 8px movement
+        const moveY = Math.sin(angle) * 8;
+        
+        // Apply the movement using transform
+        eye.style.setProperty('--pupil-x', `${moveX}px`);
+        eye.style.setProperty('--pupil-y', `${moveY}px`);
+      });
+    });
+    
+    // Add CSS variables for pupil movement
+    const eyeStyle = document.createElement('style');
+    eyeStyle.textContent = `
+      .eye:after {
+        transition: transform 0.05s ease-out;
+      }
+    `;
+    document.head.appendChild(eyeStyle);
+  }, 3500); // Wait until character is fully visible
+}

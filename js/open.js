@@ -5,6 +5,9 @@ let capsuleData = null;
 let countdownInterval = null;
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Show intro with Shin-chan character
+  showIntroWithCharacter();
+  
   // Get encrypted data from URL
   const urlParams = new URLSearchParams(window.location.search);
   const encryptedData = urlParams.get('capsule');
@@ -31,6 +34,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize cursor glow
   initCursorGlow();
 });
+
+// Show intro with Shin-chan character
+function showIntroWithCharacter() {
+  const overlay = document.getElementById('introOverlay');
+  if (!overlay) return;
+  
+  // Overlay is already visible by default
+  // After 3 seconds, fade it out
+  setTimeout(() => {
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 500);
+  }, 3000);
+}
 
 // Simple encryption/decryption using Base64 + character shift
 function decryptCapsule(encrypted) {
