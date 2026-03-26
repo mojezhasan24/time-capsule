@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const sections = document.querySelectorAll('.hero-section, .features-section, .how-it-works-section, .quote-section, .final-cta-section');
   const progressBar = document.querySelector('.progress-fill');
   
-  // Intersection Observer for section animations
+  // Intersection Observer for section animations with flying effects
   const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px'
+    threshold: 0.1,
+    rootMargin: '0px 0px -100px 0px'
   };
   
   const sectionObserver = new IntersectionObserver((entries) => {
@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Animate timeline items
         if (entry.target.classList.contains('how-it-works-section')) {
           animateTimelineItems();
+        }
+        
+        // Animate feature cards with staggered flying effect
+        if (entry.target.classList.contains('features-section')) {
+          animateFeatureCardsFlying();
         }
       }
     });
@@ -87,20 +92,72 @@ function navigateToCreate() {
   }, 500);
 }
 
-// Scroll to features
+// Scroll to features with flying animation
 function scrollToFeatures() {
-  document.getElementById('features').scrollIntoView({
+  const featuresSection = document.getElementById('features');
+  featuresSection.scrollIntoView({
     behavior: 'smooth'
+  });
+    
+  // Trigger flying animation when button is clicked
+  setTimeout(() => {
+    animateFeatureCardsFlying();
+  }, 800);
+}
+  
+// Flying animation for feature cards
+function animateFeatureCardsFlying() {
+  const cards = document.querySelectorAll('.feature-card');
+    
+  cards.forEach((card, index) => {
+    // Reset animation state
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(-100vh) rotate(-180deg) scale(0.3)';
+      
+    // Trigger flying animation with stagger
+    setTimeout(() => {
+      card.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      card.style.opacity = '1';
+      card.style.transform = 'translateY(0) rotate(0deg) scale(1)';
+        
+      // Add bounce effect on arrival
+      setTimeout(() => {
+        card.style.transition = 'transform 0.4s ease';
+        card.style.transform = 'translateY(-10px) scale(1.03)';
+        setTimeout(() => {
+          card.style.transform = 'translateY(0) scale(1)';
+        }, 400);
+      }, 600);
+    }, index * 150); // Stagger delay
   });
 }
 
-// Animate timeline items sequentially
+// Animate timeline items with flying from sides
 function animateTimelineItems() {
   const items = document.querySelectorAll('.timeline-item');
-  
+    
   items.forEach((item, index) => {
+    const isEven = index % 2 === 0;
+      
+    // Start position - flying from sides
+    item.style.opacity = '0';
+    item.style.transform = `translateX(${isEven ? '-200vw' : '200vw'}) rotate(${isEven ? '-720deg' : '720deg'}) scale(0.2)`;
+      
+    // Trigger flying animation with stagger
     setTimeout(() => {
+      item.style.transition = 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      item.style.opacity = '1';
+      item.style.transform = 'translateX(0) rotate(0deg) scale(1)';
       item.classList.add('visible');
+        
+      // Add settling bounce
+      setTimeout(() => {
+        item.style.transition = 'transform 0.3s ease';
+        item.style.transform = 'translateY(-5px)';
+        setTimeout(() => {
+          item.style.transform = 'translateY(0)';
+        }, 300);
+      }, 800);
     }, index * 300);
   });
 }

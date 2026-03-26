@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('capsuleForm');
   
+  // Add entrance animations
+  animatePageEntrance();
+  
   // Add ripple effect to buttons
   addRippleEffect();
   
@@ -152,5 +155,86 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       document.head.appendChild(style);
     }
+  }
+  
+  // Animate page entrance with flying cards effect
+  function animatePageEntrance() {
+    const card = document.querySelector('.cosmic-card');
+    const title = document.querySelector('.cosmic-title');
+    const subtitle = document.querySelector('.cosmic-subtitle');
+    const inputs = document.querySelectorAll('.input-group-cosmic');
+    const button = document.querySelector('.btn-cosmic-primary');
+    
+    // Initial state - off screen
+    if (card) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-100vh) rotate(-180deg) scale(0.3)';
+    }
+    
+    if (title) {
+      title.style.opacity = '0';
+      title.style.transform = 'translateX(-200px)';
+    }
+    
+    if (subtitle) {
+      subtitle.style.opacity = '0';
+      subtitle.style.transform = 'translateX(200px)';
+    }
+    
+    inputs.forEach((input, index) => {
+      input.style.opacity = '0';
+      input.style.transform = `translateX(${-100 - index * 50}px)`;
+    });
+    
+    if (button) {
+      button.style.opacity = '0';
+      button.style.transform = 'scale(0.5)';
+    }
+    
+    // Animate in sequence
+    setTimeout(() => {
+      // Card flies in
+      if (card) {
+        card.style.transition = 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0) rotate(0deg) scale(1)';
+      }
+      
+      // Title slides in
+      setTimeout(() => {
+        if (title) {
+          title.style.transition = 'all 0.6s ease-out';
+          title.style.opacity = '1';
+          title.style.transform = 'translateX(0)';
+        }
+        
+        // Subtitle slides in
+        setTimeout(() => {
+          if (subtitle) {
+            subtitle.style.transition = 'all 0.6s ease-out';
+            subtitle.style.opacity = '1';
+            subtitle.style.transform = 'translateX(0)';
+          }
+          
+          // Inputs slide in one by one
+          inputs.forEach((input, index) => {
+            setTimeout(() => {
+              input.style.transition = 'all 0.5s ease-out';
+              input.style.opacity = '1';
+              input.style.transform = 'translateX(0)';
+            }, index * 100);
+          });
+          
+          // Button scales in
+          setTimeout(() => {
+            if (button) {
+              button.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+              button.style.opacity = '1';
+              button.style.transform = 'scale(1)';
+            }
+          }, inputs.length * 100 + 200);
+        }, 400);
+      }, 600);
+    }, 300);
   }
 });

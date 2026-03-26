@@ -2,6 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('capsule');
   const id= location.hash.replace('#', '');
   
+  // Add entrance animations
+  animatePageEntrance();
+  
   // Add ripple effect to buttons
   addRippleEffect();
   
@@ -231,19 +234,86 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
   
-  // Add mouse tracking for glowing border effect
-  function addCardGlowEffect() {
-    const cards = document.querySelectorAll('.card');
+  // Animate page entrance with flying elements
+  function animatePageEntrance() {
+    const card = document.querySelector('.cosmic-card');
+    const title = document.querySelector('.cosmic-title');
+    const subtitle = document.querySelector('.cosmic-subtitle');
+    const capsuleContainer = document.querySelector('.cosmic-capsule-container');
+    const buttons = document.querySelectorAll('.btn-cosmic-secondary');
     
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        
-        card.style.setProperty('--mouse-x', `${x}%`);
-        card.style.setProperty('--mouse-y', `${y}%`);
-      });
+    // Initial state - off screen
+    if (card) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-100vh) rotate(-180deg) scale(0.3)';
+    }
+    
+    if (title) {
+      title.style.opacity = '0';
+      title.style.transform = 'translateX(-200px)';
+    }
+    
+    if (subtitle) {
+      subtitle.style.opacity = '0';
+      subtitle.style.transform = 'translateX(200px)';
+    }
+    
+    if (capsuleContainer) {
+      capsuleContainer.style.opacity = '0';
+      capsuleContainer.style.transform = 'translateY(100px)';
+    }
+    
+    buttons.forEach((button, index) => {
+      button.style.opacity = '0';
+      button.style.transform = `scale(0.5) translateY(${index * 50}px)`;
     });
+    
+    // Animate in sequence
+    setTimeout(() => {
+      // Card flies in
+      if (card) {
+        card.style.transition = 'all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+        card.style.opacity = '1';
+        card.style.transform = 'translateY(0) rotate(0deg) scale(1)';
+      }
+      
+      // Title slides in
+      setTimeout(() => {
+        if (title) {
+          title.style.transition = 'all 0.6s ease-out';
+          title.style.opacity = '1';
+          title.style.transform = 'translateX(0)';
+        }
+        
+        // Subtitle slides in
+        setTimeout(() => {
+          if (subtitle) {
+            subtitle.style.transition = 'all 0.6s ease-out';
+            subtitle.style.opacity = '1';
+            subtitle.style.transform = 'translateX(0)';
+          }
+          
+          // Capsule content fades in
+          setTimeout(() => {
+            if (capsuleContainer) {
+              capsuleContainer.style.transition = 'all 0.8s ease-out';
+              capsuleContainer.style.opacity = '1';
+              capsuleContainer.style.transform = 'translateY(0)';
+            }
+            
+            // Buttons pop in
+            setTimeout(() => {
+              buttons.forEach((button, index) => {
+                setTimeout(() => {
+                  button.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                  button.style.opacity = '1';
+                  button.style.transform = 'scale(1) translateY(0)';
+                }, index * 150);
+              });
+            }, 300);
+          }, 200);
+        }, 400);
+      }, 600);
+    }, 300);
   }
 });
