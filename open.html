@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Time Capsule — Open Your Message</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/create-view.css">
+  <link rel="stylesheet" href="css/open.css">
+</head>
+<body class="open-page">
+  <!-- Animated Background -->
+  <div class="stars"></div>
+  <div class="nebula"></div>
+  <div class="time-particles"></div>
+  
+  <!-- Floating Elements -->
+  <div class="floating-objects">
+    <div class="float-object clock">⏰</div>
+    <div class="float-object envelope">✉️</div>
+    <div class="float-object star">⭐</div>
+    <div class="float-object hourglass">⏳</div>
+    <div class="float-object scroll">📜</div>
+  </div>
+  
+  <main class="page-container">
+    <div class="content-wrapper">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          
+          <!-- Loading State -->
+          <div id="loadingState" class="cosmic-card shadow-lg text-center">
+            <div class="card-body">
+              <div class="loading-spinner">
+                <div class="spinner"></div>
+              </div>
+              <h2 class="loading-text">Decrypting Time Capsule...</h2>
+            </div>
+          </div>
+          
+          <!-- Locked State (Countdown) -->
+          <div id="lockedState" class="cosmic-card shadow-lg text-center" style="display: none;">
+            <div class="card-body">
+              <div class="ornament">❖ ❖ ❖</div>
+              
+              <div class="locked-gift">
+                <div class="gift-glow"></div>
+                <div class="gift-box">🎁</div>
+                <div class="lock-overlay">🔒</div>
+              </div>
+              
+              <h1 class="cosmic-title">Time Capsule Locked</h1>
+              <p class="cosmic-subtitle">A message from <span id="lockedName">someone</span> awaits...</p>
+              
+              <div class="unlock-date-display">
+                <span class="unlock-label">Opens on</span>
+                <span id="unlockDate" class="unlock-date">-</span>
+              </div>
+              
+              <!-- Countdown Timer -->
+              <div class="countdown-container">
+                <h3>⏳ Time Remaining</h3>
+                <div class="countdown-grid">
+                  <div class="countdown-item">
+                    <span id="countDays" class="countdown-value">00</span>
+                    <span class="countdown-label">Days</span>
+                  </div>
+                  <div class="countdown-item">
+                    <span id="countHours" class="countdown-value">00</span>
+                    <span class="countdown-label">Hours</span>
+                  </div>
+                  <div class="countdown-item">
+                    <span id="countMinutes" class="countdown-value">00</span>
+                    <span class="countdown-label">Minutes</span>
+                  </div>
+                  <div class="countdown-item">
+                    <span id="countSeconds" class="countdown-value">00</span>
+                    <span class="countdown-label">Seconds</span>
+                  </div>
+                </div>
+              </div>
+              
+              <p class="patience-message">✨ Patience is a virtue... The best things are worth waiting for ✨</p>
+              
+              <div class="ornament footer-ornament">❖ ❖ ❖</div>
+            </div>
+          </div>
+          
+          <!-- Gift Opening Animation (shown when unlocked) -->
+          <div id="giftOpeningState" class="gift-opening-container" style="display: none;">
+            <div class="gift-scene">
+              <div class="gift-wrapper">
+                <div class="gift-box-3d">
+                  <div class="gift-lid">
+                    <div class="lid-top">🎀</div>
+                    <div class="lid-front"></div>
+                  </div>
+                  <div class="gift-base">
+                    <div class="gift-front"></div>
+                    <div class="gift-sparkles">
+                      <span>✨</span><span>⭐</span><span>💫</span>
+                    </div>
+                  </div>
+                </div>
+                <button id="openGiftBtn" class="open-gift-btn">
+                  <span>🎁 Open Your Time Capsule</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Unlocked State (Message Revealed) -->
+          <div id="unlockedState" class="cosmic-card shadow-lg" style="display: none;">
+            <div class="card-body">
+              <div class="ornament">❖ ❖ ❖</div>
+              
+              <div class="revealed-header">
+                <div class="sparkle-burst">✨</div>
+                <h1 class="cosmic-title reveal-title">Your Time Capsule!</h1>
+                <p class="cosmic-subtitle">A message from the past has arrived...</p>
+              </div>
+              
+              <div class="message-info">
+                <div class="info-row">
+                  <span class="info-icon">👤</span>
+                  <span class="info-label">From:</span>
+                  <span id="revealedName" class="info-value">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">📅</span>
+                  <span class="info-label">Created:</span>
+                  <span id="revealedCreated" class="info-value">-</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-icon">🎉</span>
+                  <span class="info-label">Opened:</span>
+                  <span id="revealedOpened" class="info-value">-</span>
+                </div>
+              </div>
+              
+              <div class="message-container">
+                <div class="message-scroll">
+                  <div class="scroll-decoration top">📜</div>
+                  <div id="revealedMessage" class="message-content"></div>
+                  <div class="scroll-decoration bottom">📜</div>
+                </div>
+              </div>
+              
+              <div class="inspirational-quote">
+                <p>"Time is the most valuable thing we have. Cherish every moment."</p>
+              </div>
+              
+              <div class="action-buttons">
+                <a href="index.html" class="btn-cosmic-primary">
+                  <span class="btn-text">Create Your Own Capsule</span>
+                </a>
+              </div>
+              
+              <div class="ornament footer-ornament">❖ ❖ ❖</div>
+            </div>
+          </div>
+          
+          <!-- Error State -->
+          <div id="errorState" class="cosmic-card shadow-lg text-center" style="display: none;">
+            <div class="card-body">
+              <div class="error-icon">❌</div>
+              <h1 class="cosmic-title">Oops!</h1>
+              <p class="cosmic-subtitle">This time capsule link appears to be invalid or corrupted.</p>
+              <a href="index.html" class="btn-cosmic-primary mt-4">
+                <span class="btn-text">Create a New Capsule</span>
+              </a>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Confetti Container -->
+  <div id="confettiContainer"></div>
+  
+  <!-- Cursor Glow Effect -->
+  <div class="cursor-glow"></div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/open.js"></script>
+</body>
+</html>

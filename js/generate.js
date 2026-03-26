@@ -10,6 +10,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add mouse tracking for card glow effect
   addCardGlowEffect();
   
+  // Encryption function - shifts characters and encodes to base64
+  function encryptCapsule(data) {
+    const jsonStr = JSON.stringify(data);
+    let encrypted = '';
+    for (let i = 0; i < jsonStr.length; i++) {
+      encrypted += String.fromCharCode(jsonStr.charCodeAt(i) + 3);
+    }
+    return btoa(encrypted);
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -22,7 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
       createdAt: new Date().toISOString()
     };
     
+    // Also save to localStorage as backup
     localStorage.setItem('capsule-' + payload.id, JSON.stringify(payload));
+    
+    // Encrypt the capsule data for shareable link
+    const encryptedData = encryptCapsule(payload);
     
     // Show vintage-style success toast
     const toast = document.createElement('div');
@@ -43,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add celebration animation
     createConfetti();
     
-    // Redirect to view page
+    // Redirect to share page with encrypted data
     setTimeout(() => {
-      location.href = 'view.html#' + payload.id;
+      location.href = 'share.html?data=' + encodeURIComponent(encryptedData);
     }, 1500);
   });
   
@@ -89,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Add mouse tracking for glowing border effect
   function addCardGlowEffect() {
-    const cards = document.querySelectorAll('.card');
+    const cards = document.querySelectorAll('.cosmic-card');
     
     cards.forEach(card => {
       card.addEventListener('mousemove', (e) => {
@@ -100,8 +114,48 @@ document.addEventListener('DOMContentLoaded', () => {
         card.style.setProperty('--mouse-x', `${x}%`);
         card.style.setProperty('--mouse-y', `${y}%`);
       });
+      
+      card.addEventListener('mouseleave', () => {
+        card.style.removeProperty('--mouse-x');
+        card.style.removeProperty('--mouse-y');
+      });
     });
   }
+  
+  // Enhanced cursor glow effect
+  function initCursorGlow() {
+    const cursorGlow = document.querySelector('.cursor-glow');
+    if (!cursorGlow) return;
+    
+    document.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+      cursorGlow.style.opacity = '1';
+      
+      clearTimeout(cursorGlow.timeout);
+      cursorGlow.timeout = setTimeout(() => {
+        cursorGlow.style.opacity = '0.15';
+      }, 1000);
+    });
+    
+    // Interactive elements enhance glow
+    const interactiveElements = document.querySelectorAll(
+      '.cosmic-input, .cosmic-textarea, .btn-cosmic-primary, .cosmic-link'
+    );
+    
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorGlow.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.3), transparent 70%)';
+      });
+      
+      el.addEventListener('mouseleave', () => {
+        cursorGlow.style.background = 'radial-gradient(circle, rgba(212, 175, 55, 0.15), transparent 70%)';
+      });
+    });
+  }
+  
+  // Initialize cursor glow
+  initCursorGlow();
   
   // Add ripple effect to buttons
   function addRippleEffect() {

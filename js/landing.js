@@ -162,13 +162,16 @@ function animateTimelineItems() {
   });
 }
 
-// Particle trail effect
+// Particle trail effect with improved performance
 function createParticleTrail() {
   const colors = ['#d4af37', '#f4e4c1', '#8b4513', '#ffd700'];
   let lastX = 0;
   let lastY = 0;
+  let throttle = false;
   
   document.addEventListener('mousemove', (e) => {
+    if (throttle) return;
+    
     const distance = Math.sqrt(
       Math.pow(e.clientX - lastX, 2) + Math.pow(e.clientY - lastY, 2)
     );
@@ -199,6 +202,9 @@ function createParticleTrail() {
       
       lastX = e.clientX;
       lastY = e.clientY;
+      
+      throttle = true;
+      setTimeout(() => throttle = false, 16); // ~60fps
     }
   });
   

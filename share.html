@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Time Capsule — Share Your Capsule</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/create-view.css">
+  <link rel="stylesheet" href="css/share.css">
+</head>
+<body class="share-page">
+  <!-- Animated Background -->
+  <div class="stars"></div>
+  <div class="nebula"></div>
+  <div class="time-particles"></div>
+  
+  <!-- Floating Elements -->
+  <div class="floating-objects">
+    <div class="float-object clock">⏰</div>
+    <div class="float-object envelope">✉️</div>
+    <div class="float-object star">⭐</div>
+    <div class="float-object hourglass">⏳</div>
+    <div class="float-object scroll">📜</div>
+  </div>
+  
+  <main class="page-container">
+    <div class="content-wrapper">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="cosmic-card shadow-lg">
+            <div class="card-body text-center">
+              <div class="ornament">❖ ❖ ❖</div>
+              
+              <!-- Success Animation -->
+              <div class="success-animation">
+                <div class="sealed-capsule">
+                  <div class="capsule-glow"></div>
+                  <div class="capsule-icon">💎</div>
+                  <div class="seal-ring"></div>
+                </div>
+              </div>
+              
+              <h1 class="cosmic-title">Your Time Capsule is Sealed!</h1>
+              <p class="cosmic-subtitle">Share this magical link with your future self</p>
+              
+              <!-- Capsule Info -->
+              <div class="capsule-info">
+                <div class="info-item">
+                  <span class="info-icon">👤</span>
+                  <span class="info-label">From:</span>
+                  <span id="capsuleName" class="info-value">-</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-icon">📅</span>
+                  <span class="info-label">Opens on:</span>
+                  <span id="capsuleDate" class="info-value">-</span>
+                </div>
+              </div>
+              
+              <!-- Share Link Section -->
+              <div class="share-link-container">
+                <label class="share-label">🔗 Your Unique Time Capsule Link</label>
+                <div class="link-box">
+                  <input type="text" id="shareLink" class="share-link-input" readonly>
+                  <button id="copyBtn" class="copy-btn" onclick="copyLink()">
+                    <span class="copy-icon">📋</span>
+                    <span class="copy-text">Copy</span>
+                  </button>
+                </div>
+                <div id="copySuccess" class="copy-success">
+                  <span>✓ Link copied to clipboard!</span>
+                </div>
+              </div>
+              
+              <!-- Instructions -->
+              <div class="share-instructions">
+                <h3>📨 How to Use This Link</h3>
+                <div class="instruction-steps">
+                  <div class="step">
+                    <div class="step-number">1</div>
+                    <p>Copy and save this link somewhere safe</p>
+                  </div>
+                  <div class="step">
+                    <div class="step-number">2</div>
+                    <p>Set a reminder for the unlock date</p>
+                  </div>
+                  <div class="step">
+                    <div class="step-number">3</div>
+                    <p>Open the link when the time comes for a magical surprise!</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Warning -->
+              <div class="share-warning">
+                <span class="warning-icon">⚠️</span>
+                <p>Keep this link safe! It contains your encrypted message and cannot be recovered if lost.</p>
+              </div>
+              
+              <!-- Actions -->
+              <div class="action-buttons">
+                <a href="index.html" class="btn-cosmic-secondary">
+                  <span class="btn-text">Create Another Capsule</span>
+                </a>
+                <a href="landing.html" class="btn-cosmic-secondary ms-2">
+                  <span class="btn-text">Back to Home</span>
+                </a>
+              </div>
+              
+              <div class="ornament footer-ornament">❖ ❖ ❖</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Cursor Glow Effect -->
+  <div class="cursor-glow"></div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/share.js"></script>
+</body>
+</html>

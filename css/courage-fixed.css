@@ -1,0 +1,416 @@
+/* Courage the Cowardly Dog - Fixed Positioning */
+/* Compatible with Time Capsule Landing Page */
+
+:root {
+  --pink: #e99cca;
+  --dark-pink: #e369c3;
+  --black: #010100;
+  --light: #b03702;
+  --cian: #51bbb7;
+}
+
+.courage-container {
+  position: fixed;
+  bottom: -300px;
+  right: 5%;
+  width: 200px;
+  height: 200px;
+  z-index: 9998;
+  pointer-events: auto;
+  transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+}
+
+.courage-container.visible {
+  bottom: 20px;
+}
+
+.courage {
+  width: 89px;
+  height: 190px;
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  transform: translateX(-50%);
+  filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.3));
+}
+
+.courage:hover {
+  transform: translateX(-50%) scale(1.2);
+}
+
+/* HEAD */
+.courage .head {
+  width: 89px;
+  height: 105px;
+  background-color: var(--pink);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50% 50% 0% 0% / 72% 72% 0% 0%;
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+/* EARS */
+.courage .ear {
+  position: absolute;
+}
+
+.courage .ear.left {
+  width: 16px;
+  height: 68px;
+  top: -73px;
+  left: 7px;
+  transform-origin: bottom center;
+  transform: rotate(-60deg);
+  background-color: var(--black);
+  animation: earTwitchLeft 3s ease-in-out infinite;
+}
+
+.courage .ear.right {
+  width: 77px;
+  height: 31px;
+  top: -25px;
+  left: 70px;
+  background-color: var(--black);
+  animation: earTwitchRight 3s ease-in-out infinite;
+}
+
+/* EYES */
+.courage .eye {
+  width: 46px;
+  height: 95px;
+  background-color: #fff;
+  position: absolute;
+  top: 20px;
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 3;
+}
+
+.courage .eye.left {
+  left: 8px;
+  border-radius: 60% 40% 50% 50% / 50% 30% 70% 50%;
+}
+
+.courage .eye.right {
+  right: 8px;
+  border-radius: 40% 60% 50% 50% / 50% 70% 50% 50%;
+}
+
+.courage .eye::before {
+  content: "";
+  width: 9px;
+  height: 17px;
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(at 65% 35%, #fff 20%, var(--black) 25%);
+  top: 30%;
+  left: 50%;
+  animation: move 0.2s infinite ease-in-out;
+}
+
+.courage .eye::after {
+  content: "";
+  width: 100%;
+  height: 30%;
+  position: absolute;
+  top: 0;
+  background-color: var(--dark-pink);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 100%);
+  animation: blink 8s infinite ease-in-out;
+}
+
+/* NOSE */
+.courage .nose {
+  width: 18px;
+  height: 15px;
+  background-color: var(--black);
+  position: absolute;
+  top: 75px;
+  left: 36px;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* MOUTH */
+.courage .mouth {
+  width: 34px;
+  height: 18px;
+  position: absolute;
+  top: 89px;
+  left: 28px;
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background-color: #ff9999;
+  z-index: 3;
+}
+
+/* BODY */
+.courage .body {
+  width: 52px;
+  height: 85px;
+  background-color: var(--pink);
+  position: absolute;
+  top: 105px;
+  left: 18px;
+  border-radius: 50% 50% 50% 50% / 32% 32% 68% 68%;
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.courage .belly {
+  width: 28px;
+  height: 47px;
+  position: absolute;
+  top: 16px;
+  left: 10px;
+  background-color: var(--black);
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.courage .belly::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 2px;
+  left: 1px;
+  background-color: var(--pink);
+  border-radius: 50%;
+}
+
+.courage .belly::after {
+  content: "";
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  top: 14px;
+  left: 11px;
+  background-color: var(--pink);
+  border-radius: 50%;
+}
+
+/* ARMS */
+.courage .arm {
+  width: 42px;
+  height: 12px;
+  background-color: var(--pink);
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  border-radius: 10px;
+  position: absolute;
+  transform-origin: left center;
+}
+
+.courage .arm.left {
+  top: 114px;
+  left: 18px;
+  transform: rotate(130deg);
+}
+
+.courage .arm.right {
+  top: 114px;
+  right: 18px;
+  transform: rotate(-30deg);
+  transition: transform 0.5s ease-in-out;
+}
+
+.courage .hand {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: -4px;
+  top: -2px;
+  background-color: var(--pink);
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+
+.courage .hand .glove {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+/* Waving Animation */
+.courage-container.waving .arm.right {
+  animation: waveArm 1s ease-in-out infinite;
+}
+
+@keyframes waveArm {
+  0%, 100% {
+    transform: rotate(-30deg);
+  }
+  50% {
+    transform: rotate(-150deg);
+  }
+}
+
+/* Pointing Animation */
+.courage-container.pointing-left .arm.right {
+  animation: pointArm 2s ease-in-out infinite;
+}
+
+@keyframes pointArm {
+  0%, 100% {
+    transform: rotate(-30deg);
+  }
+  50%, 80% {
+    transform: rotate(-120deg);
+  }
+}
+
+/* COLLAR */
+.courage .collar {
+  width: 36px;
+  height: 12px;
+  position: absolute;
+  top: 105px;
+  left: 26px;
+  background-color: var(--dark-pink);
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  border-radius: 3px;
+  z-index: 3;
+}
+
+.courage .tag {
+  width: 14px;
+  height: 14px;
+  position: absolute;
+  bottom: -8px;
+  left: 9px;
+  background-color: #ffd700;
+  border: 2px solid var(--black);
+  box-sizing: border-box;
+  border-radius: 50%;
+}
+
+.courage .tag::before {
+  content: "🦴";
+  font-size: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* SPEECH BUBBLE */
+.courage-speech {
+  position: absolute;
+  top: -80px;
+  right: 20px;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 14px;
+  color: #1a1a2e;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+}
+
+.courage-speech::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: white;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.courage-speech.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ANIMATIONS */
+@keyframes earTwitchLeft {
+  0%, 100% {
+    transform: rotate(-60deg);
+  }
+  50% {
+    transform: rotate(-50deg);
+  }
+}
+
+@keyframes earTwitchRight {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes move {
+  0%, 100% {
+    transform: translate(-50%, -50%);
+  }
+  25% {
+    transform: translate(-40%, -50%);
+  }
+  75% {
+    transform: translate(-60%, -50%);
+  }
+}
+
+@keyframes blink {
+  0%, 48%, 52%, 100% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 60%, 0% 100%);
+  }
+  50% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+/* Excited breathing */
+@keyframes excitedBreathe {
+  0%, 100% {
+    transform: translateX(-50%) scale(1) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05) translateY(-8px);
+  }
+}
+
+.courage-container.happy .courage {
+  animation: excitedBreathe 0.8s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .courage-container {
+    width: 150px;
+    height: 150px;
+    right: 2%;
+    bottom: -250px;
+  }
+  
+  .courage-container.visible {
+    bottom: 10px;
+  }
+  
+  .courage-speech {
+    font-size: 12px;
+    padding: 10px 15px;
+  }
+}
