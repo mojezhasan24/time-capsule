@@ -60,6 +60,57 @@
             </div>
           </div>
           
+          <!-- Password Entry State (Interrogation) -->
+          <div id="passwordState" class="cosmic-card shadow-lg" style="display: none;">
+            <div class="card-body">
+              <div class="ornament">❖ ❖ ❖</div>
+              
+              <!-- Suspicious Shin-chan -->
+              <div class="interrogation-character">
+                <div class="face">
+                  <div class="forhead"></div>
+                  <div class="ear"></div>
+                  <div class="cheeks"></div>
+                  <div class="eye left"></div>
+                  <div class="eye right"></div>
+                  <div class="eyebrow left"></div>
+                  <div class="eyebrow right"></div>
+                  <div class="mouth"></div>
+                  <div class="shy left"></div>
+                  <div class="shy right"></div>
+                </div>
+                <div class="speech-bubble" id="interrogationSpeech">
+                  <span class="speech-text" id="interrogationText">🤨 Halt! This capsule is protected!</span>
+                </div>
+              </div>
+              
+              <h1 class="cosmic-title" style="font-size: 2rem; margin-top: 2rem;">Security Check Required</h1>
+              <p class="cosmic-subtitle">Prove you're the rightful owner...</p>
+              
+              <div class="password-form-container">
+                <div class="input-group-cosmic">
+                  <label for="capsulePassword" class="cosmic-label">
+                    <span class="label-icon">🔐</span>
+                    <span>Enter the 8-Character Password</span>
+                  </label>
+                  <input type="password" class="cosmic-input" id="capsulePassword" placeholder="Enter password" maxlength="8">
+                  <div class="input-glow"></div>
+                </div>
+                
+                <button onclick="verifyPassword()" class="btn-cosmic-primary w-100 mt-3">
+                  <span class="btn-text">🔓 Unlock Capsule</span>
+                </button>
+                
+                <div id="wrongPasswordMsg" class="wrong-password-msg" style="display: none;">
+                  <span class="error-icon">❌</span>
+                  <span class="error-text">Wrong password! Try again...</span>
+                </div>
+              </div>
+              
+              <div class="ornament footer-ornament">❖ ❖ ❖</div>
+            </div>
+          </div>
+          
           <!-- Locked State (Countdown) -->
           <div id="lockedState" class="cosmic-card shadow-lg text-center" style="display: none;">
             <div class="card-body">

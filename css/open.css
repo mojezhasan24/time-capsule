@@ -504,6 +504,126 @@
   z-index: 9999;
 }
 
+/* Interrogation Character */
+.interrogation-character {
+  position: relative;
+  margin: 2rem auto;
+  max-width: 400px;
+}
+
+.interrogation-character .face {
+  height: 400px;
+  width: 250px;
+  margin: 0 auto;
+  transform: scale(0.7);
+  transition: transform 0.3s ease;
+}
+
+/* Wrong password - head shake */
+.interrogation-character.wrong-password .face {
+  animation: headShakeNegative 0.5s ease-in-out;
+}
+
+@keyframes headShakeNegative {
+  0%, 100% { 
+    transform: scale(0.7) rotate(0deg);
+  }
+  20% { 
+    transform: scale(0.7) rotate(-15deg) translateX(-10px);
+  }
+  40% { 
+    transform: scale(0.7) rotate(15deg) translateX(10px);
+  }
+  60% { 
+    transform: scale(0.7) rotate(-10deg) translateX(-5px);
+  }
+  80% { 
+    transform: scale(0.7) rotate(10deg) translateX(5px);
+  }
+}
+
+/* Correct password - happy nod */
+.interrogation-character.correct-password .face {
+  animation: happyNod 0.6s ease-in-out;
+}
+
+@keyframes happyNod {
+  0%, 100% { 
+    transform: scale(0.7) rotate(0deg) translateY(0);
+  }
+  25% { 
+    transform: scale(0.7) rotate(-5deg) translateY(-10px);
+  }
+  50% { 
+    transform: scale(0.7) rotate(0deg) translateY(0);
+  }
+  75% { 
+    transform: scale(0.7) rotate(5deg) translateY(-5px);
+  }
+  100% { 
+    transform: scale(0.7) rotate(0deg) translateY(0);
+  }
+}
+
+.interrogation-character .speech-bubble {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  padding: 15px 25px;
+  border-radius: 30px;
+  box-shadow: 
+    0 8px 25px rgba(0,0,0,0.15),
+    inset 0 -2px 5px rgba(0,0,0,0.05);
+  max-width: 280px;
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  animation: bubbleFloat 3s ease-in-out infinite;
+}
+
+.interrogation-character .speech-bubble::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  transform: translateY(-50%) rotate(180deg);
+  width: 20px;
+  height: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-top: 2px solid rgba(212, 175, 55, 0.2);
+  border-right: 2px solid rgba(212, 175, 55, 0.2);
+  transform: translateY(-50%) rotate(45deg);
+  clip-path: polygon(0 0, 50% 50%, 0 100%);
+}
+
+.wrong-password-msg {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(220, 53, 69, 0.1);
+  border: 2px solid rgba(220, 53, 69, 0.3);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: shake 0.5s ease-in-out;
+}
+
+.error-icon {
+  font-size: 1.5rem;
+}
+
+.error-text {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
 /* Shin-chan Face Character Styles (By - Ayush) */
 .face {
   height: 600px;

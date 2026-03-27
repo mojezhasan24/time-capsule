@@ -3,6 +3,7 @@
 // Global capsule data
 let capsuleData = null;
 let countdownInterval = null;
+let storedPassword = null; // Store the correct password
 
 document.addEventListener('DOMContentLoaded', () => {
   // Show intro with Shin-chan character
@@ -74,16 +75,14 @@ function processCapsule(data) {
   const unlockDate = new Date(data.date);
   const now = new Date();
   
+  // Store the password for verification
+  storedPassword = data.password;
+  
   // Hide loading state
   document.getElementById('loadingState').style.display = 'none';
   
-  if (now < unlockDate) {
-    // Still locked - show countdown
-    showLockedState(data, unlockDate);
-  } else {
-    // Unlocked - show gift opening animation
-    showGiftOpening(data);
-  }
+  // Show password entry (interrogation)
+  showPasswordEntry(data);
 }
 
 // Show locked state with countdown
@@ -100,6 +99,95 @@ function showLockedState(data, unlockDate) {
   countdownInterval = setInterval(() => {
     updateCountdown(unlockDate);
   }, 1000);
+}
+
+// Show password entry (interrogation)
+function showPasswordEntry(data) {
+  const passwordState = document.getElementById('passwordState');
+  passwordState.style.display = 'block';
+  
+  // Focus on password input
+  setTimeout(() => {
+    document.getElementById('capsulePassword').focus();
+  }, 500);
+  
+  // Interrogation dialogues
+  const interrogations = [
+    "🤨 Halt! This capsule is protected!",
+    "🔍 Who are you? And how did you get this link?",
+    "😒 I don't trust strangers... Prove yourself!",
+    "👀 What's the secret word? Think carefully...",
+    "🧐 Wrong answers make me very suspicious..."
+  ];
+  
+  let dialogueIndex = 0;
+  
+  // Rotate through interrogation lines
+  setInterval(() => {
+    if (dialogueIndex < interrogations.length) {
+      document.getElementById('interrogationText').textContent = interrogations[dialogueIndex];
+      dialogueIndex++;
+    }
+  }, 3000);
+}
+
+// Verify password function
+function verifyPassword() {
+  const enteredPassword = document.getElementById('capsulePassword').value;
+  const interrogationChar = document.querySelector('.interrogation-character');
+  
+  if (enteredPassword === storedPassword) {
+    // Correct password - happy nod animation
+    interrogationChar.classList.add('correct-password');
+    interrogationChar.classList.remove('wrong-password');
+    
+    // Wait for nod animation then proceed
+    setTimeout(() => {
+      interrogationChar.classList.remove('correct-password');
+      
+      // Check date now
+      const unlockDate = new Date(capsuleData.date);
+      const now = new Date();
+      
+      if (now < unlockDate) {
+        // Still locked - show countdown
+        document.getElementById('passwordState').style.display = 'none';
+        showLockedState(capsuleData, unlockDate);
+      } else {
+        // Unlocked - show gift opening
+        document.getElementById('passwordState').style.display = 'none';
+        showGiftOpening(capsuleData);
+      }
+    }, 600); // Wait for nod animation
+    
+  } else {
+    // Wrong password - head shake animation
+    interrogationChar.classList.add('wrong-password');
+    interrogationChar.classList.remove('correct-password');
+    
+    const wrongMsg = document.getElementById('wrongPasswordMsg');
+    wrongMsg.style.display = 'block';
+    
+    // Shin-chan gets more suspicious
+    const angryDialogues = [
+      "😠 WRONG! Nice try, but I'm watching you...",
+      "🤨 That's not it! Are you even supposed to be here?",
+      "😒 Three strikes and you're out! Just kidding... keep trying.",
+      "👀 Suspicious... very suspicious..."
+    ];
+    
+    const randomDialogue = angryDialogues[Math.floor(Math.random() * angryDialogues.length)];
+    document.getElementById('interrogationText').textContent = randomDialogue;
+    
+    // Remove animation class after it completes so it can be triggered again
+    setTimeout(() => {
+      interrogationChar.classList.remove('wrong-password');
+    }, 500);
+    
+    // Clear input
+    document.getElementById('capsulePassword').value = '';
+    document.getElementById('capsulePassword').focus();
+  }
 }
 
 // Update countdown timer

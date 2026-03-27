@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       name: fd.get('name'),
       message: fd.get('message'),
       date: fd.get('date'),
+      password: fd.get('password'), // Add password
       createdAt: new Date().toISOString()
     };
     
