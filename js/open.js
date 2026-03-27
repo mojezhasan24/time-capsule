@@ -100,8 +100,6 @@ function showLockedState(data, unlockDate) {
     updateCountdown(unlockDate);
   }, 1000);
 }
-
-// Show password entry (interrogation)
 function showPasswordEntry(data) {
   const passwordState = document.getElementById('passwordState');
   passwordState.style.display = 'block';
@@ -154,9 +152,9 @@ function verifyPassword() {
         document.getElementById('passwordState').style.display = 'none';
         showLockedState(capsuleData, unlockDate);
       } else {
-        // Unlocked - show gift opening
+        // Unlocked - show message directly (no gift animation)
         document.getElementById('passwordState').style.display = 'none';
-        showGiftOpening(capsuleData);
+        showRevealedMessage(capsuleData);
       }
     }, 600); // Wait for nod animation
     
@@ -196,10 +194,10 @@ function updateCountdown(unlockDate) {
   const diff = unlockDate - now;
   
   if (diff <= 0) {
-    // Time's up! Stop countdown and show gift
+    // Time's up! Stop countdown and show message directly
     clearInterval(countdownInterval);
     document.getElementById('lockedState').style.display = 'none';
-    showGiftOpening(capsuleData);
+    showRevealedMessage(capsuleData);
     return;
   }
   
@@ -231,34 +229,7 @@ function updateCountdownValue(elementId, newValue) {
 function showGiftOpening(data) {
   const giftState = document.getElementById('giftOpeningState');
   giftState.style.display = 'block';
-  
-  // Add click handler for opening
-  const openBtn = document.getElementById('openGiftBtn');
-  openBtn.addEventListener('click', () => {
-    openGift(data);
-  });
-}
-
-// Open the gift with animation
-function openGift(data) {
-  const giftBox = document.querySelector('.gift-box-3d');
-  const openBtn = document.getElementById('openGiftBtn');
-  
-  // Hide button
-  openBtn.style.opacity = '0';
-  openBtn.style.pointerEvents = 'none';
-  
-  // Add opening animation
-  giftBox.classList.add('opening');
-  
-  // Create massive confetti burst
-  createMassiveConfetti();
-  
-  // After animation, show the message
-  setTimeout(() => {
-    document.getElementById('giftOpeningState').style.display = 'none';
-    showRevealedMessage(data);
-  }, 2000);
+  // Gift opening is now handled by Stimulus controller
 }
 
 // Show the revealed message
