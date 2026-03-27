@@ -208,10 +208,23 @@ function updateCountdown(unlockDate) {
   const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((diff % (1000 * 60)) / 1000);
   
-  document.getElementById('countDays').textContent = String(days).padStart(2, '0');
-  document.getElementById('countHours').textContent = String(hours).padStart(2, '0');
-  document.getElementById('countMinutes').textContent = String(minutes).padStart(2, '0');
-  document.getElementById('countSeconds').textContent = String(seconds).padStart(2, '0');
+  // Update countdown values with flip animation
+  updateCountdownValue('countDays', String(days).padStart(2, '0'));
+  updateCountdownValue('countHours', String(hours).padStart(2, '0'));
+  updateCountdownValue('countMinutes', String(minutes).padStart(2, '0'));
+  updateCountdownValue('countSeconds', String(seconds).padStart(2, '0'));
+}
+
+// Update individual countdown value with animation
+function updateCountdownValue(elementId, newValue) {
+  const element = document.getElementById(elementId);
+  if (element && element.textContent !== newValue) {
+    // Add animation class
+    element.style.animation = 'none';
+    element.offsetHeight; // Trigger reflow
+    element.style.animation = 'numberFlip 0.5s ease-in-out';
+    element.textContent = newValue;
+  }
 }
 
 // Show gift opening animation
